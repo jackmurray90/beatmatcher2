@@ -28,3 +28,13 @@ class String(models.Model):
 class Settings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True)
+
+
+class DJ(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    picture = models.BooleanField()
+    booking_url = models.CharField(max_length=200, null=True)
+    soundcloud_url = models.CharField(max_length=200, null=True)
+    rate = models.IntegerField()
