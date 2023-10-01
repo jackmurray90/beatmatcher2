@@ -1,5 +1,5 @@
 translations = {
-    "en": {
+        "en": {
         "Services": "Services",
         "Log me in": "Log me in",
         "Welcome to %s": "Welcome to %s",
@@ -32,6 +32,7 @@ translations = {
         "Save": "Save",
         "Purge unused": "Purge unused",
         "Information about your account goes here": "Information about your account goes here",
+        "String": "String",
         "SoundCloud": "SoundCloud",
         "In the future, we may also list upcoming events for fans of DJs or clubs.": "In the future, we may also list upcoming events for fans of DJs or clubs.",
         "DJs can provide their profile and rate, and then event organizers can make a booking request with any DJ on the site.": "DJs can provide their profile and rate, and then event organizers can make a booking request with any DJ on the site.",
@@ -78,6 +79,7 @@ translations = {
         "Save": "Speichern",
         "Purge unused": "Nicht verwendetes löschen",
         "Information about your account goes here": "Informationen zu Ihrem Konto finden Sie hier",
+        "String": "Zeichenfolge",
         "SoundCloud": "SoundCloud",
         "In the future, we may also list upcoming events for fans of DJs or clubs.": "In Zukunft werden wir möglicherweise auch bevorstehende Veranstaltungen für Fans von DJs oder Clubs auflisten.",
         "DJs can provide their profile and rate, and then event organizers can make a booking request with any DJ on the site.": "DJs können ihr Profil und ihren Preis angeben, und Veranstalter können dann bei jedem DJ auf der Website eine Buchungsanfrage stellen.",
