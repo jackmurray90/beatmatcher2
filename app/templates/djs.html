@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% load translation %}
+
+{% block content %}
+  <div class="mui-container-fluid">
+    {% for dj in djs %}
+      <div class="mui-row">
+        <div class="mui-col-lg-3 mui-col-lg-offset-3 mui-col-md-3">
+          {% if dj.picture %}
+            <img src="{% get_static_prefix %}images/djs/{{ dj.id }}.png" style="margin-top: 1em">
+          {% endif %}
+        </div>
+        <div class="mui-col-lg-4 mui-col-md-9">
+          <h2>{{ dj.name }}</h2>
+          <p>{{ dj.description }}</p>
+          <p>{{ "Rate: &euro;%s per hour"|tr:lang|with_arg:dj.rate|safe }}</p>
+          {% if not dj.user %}
+            <p><strong>{{ "Beatmatcher is not directly affiliated with this DJ."|tr:lang }}</strong></p>
+          {% endif %}
+          {% if dj.user or dj.booking_url %}
+            <form
+              class="mui-form"
+              style="display: inline-block;"
+              method="get"
+              action="{% if dj.user %}{% comment %}url "new-booking" lang=lang dj_username=dj.user.username {% endcomment %}{% else %}{{ dj.booking_url }}{% endif %}"
+            >
+              <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">
+                {% if dj.user %}
+                  {{ "Book now"|tr:lang }}
+                {% else %}
+                  {{ "Bookings"|tr:lang }}
+                {% endif %}
+              </button>
+            </form>
+          {% endif %}
+          {% if dj.soundcloud_url %}
+            <form class="mui-form" style="display: inline-block;" method="get" action="{{ dj.soundcloud_url }}">
+              <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">{{ "SoundCloud"|tr:lang }}</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  </div>
+{% endblock %}

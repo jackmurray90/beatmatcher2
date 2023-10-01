@@ -7,7 +7,7 @@
     <a class="title" href="{{ SITE_URL }}">{{ SITE_TITLE }}</a>
   </div>
   <ul>
-    <li><a href="{% url "concept" lang=lang %}">{{ "Concept"|tr:lang }}</a></li>
+    <li><a href="{% url "djs" lang=lang %}">{{ "DJs"|tr:lang }}</a></li>
     {% if user.is_authenticated %}
       <li><a href="{% url "account" lang=lang %}">{{ "Account"|tr:lang }}</a></li>
       <li><a href="{% url "log-out" lang=lang %}">{{ "Log out"|tr:lang }}</a></li>

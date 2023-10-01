@@ -9,12 +9,13 @@ from app.views import (
     ConceptView,
     AccountView,
     AdminLanguageView,
+    DJsView,
 )
 
 urlpatterns = [
     # Landing page
     path("", RedirectToLanguageView.as_view(), name="redirect-to-language"),
-    path("<lang>/", ConceptView.as_view(), name="index"),
+    path("<lang>/", DJsView.as_view(), name="index"),
     # Sign up, log in, reset password
     path("<lang>/log-in", LogInView.as_view(), name="log-in"),
     path("<lang>/log-out", LogOutView.as_view(), name="log-out"),
@@ -27,4 +28,6 @@ urlpatterns = [
     path("<lang>/account", AccountView.as_view(), name="account"),
     # Admin
     path("<lang>/admin/language", AdminLanguageView.as_view(), name="admin-language"),
+    # DJs
+    path("<lang>/djs", DJsView.as_view(), name="djs"),
 ]
