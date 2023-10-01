@@ -6,4 +6,4 @@ from app.models import DJ
 class DJsView(View):
     def get(self, request, lang):
         djs = DJ.objects.all()
-        return render(request, "djs.html", {"djs": djs})
+        return render(request, f"djs.html", {f"djs": djs})
