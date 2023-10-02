@@ -10,6 +10,8 @@ from app.views import (
     AccountView,
     AdminLanguageView,
     DJsView,
+    EditDJView,
+    EditDJSuccessView,
 )
 
 urlpatterns = [
@@ -30,4 +32,6 @@ urlpatterns = [
     path("<lang>/admin/language", AdminLanguageView.as_view(), name="admin-language"),
     # DJs
     path("<lang>/djs", DJsView.as_view(), name="djs"),
+    path("<lang>/edit-dj", EditDJView.as_view(), name="edit-dj"),
+    path("<lang>/edit-dj/success", EditDJSuccessView.as_view(), name="edit-dj-success"),
 ]

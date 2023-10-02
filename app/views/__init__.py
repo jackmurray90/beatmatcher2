@@ -11,7 +11,7 @@ from app.views.log_in import (
     LogOutView,
 )
 from app.views.admin import AdminLanguageView
-from app.views.djs import DJsView
+from app.views.djs import DJsView, EditDJView, EditDJSuccessView
 
 
 class RedirectToLanguageView(View):

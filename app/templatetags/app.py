@@ -1,6 +1,12 @@
 from django import template
+from time import time
 
 register = template.Library()
+
+
+@register.simple_tag
+def timestamp():
+    return int(time())
 
 
 def render_datetime(dt):
