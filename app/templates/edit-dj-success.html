@@ -6,8 +6,8 @@
   <div class="mui-container-fluid">
     <div class="mui-row">
       <div class="mui-col-md-4 mui-col-md-offset-4">
-        <p>{{ "Your DJ profilie was successfully updated."|tr:lang }}</p>
-        <p><a href="{% url "edit-dj" lang=lang %}">{{ "Back to DJ profile"|tr:lang }}</a></p>
+        <p>{% tr "Your DJ profilie was successfully updated." %}</p>
+        <p><a href="{% url "edit-dj" %}">{% tr "Back to DJ profile" %}</a></p>
       </div>
     </div>
   </div>

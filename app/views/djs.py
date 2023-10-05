@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.core.exceptions import ValidationError
 from app.models import User, DJ
-from app.translation import tr
 from app import forms
 from PIL import Image
 from io import BytesIO
@@ -10,7 +9,7 @@ from pathlib import Path
 
 
 class DJsView(View):
-    def get(self, request, lang):
+    def get(self, request, tr):
         djs = DJ.objects.all()
         return render(request, f"djs.html", {f"djs": djs})
 
@@ -24,24 +23,24 @@ class EditDJForm(forms.Form):
     rate = forms.IntegerField("Rate (€ per hour)", positive=True)
     submit = forms.SubmitButton("Save")
 
-    def validate(self, lang):
+    def validate(self, tr):
         if self.soundcloud_url and not self.soundcloud_url.startswith(f"https://soundcloud.com/"):
-            self.add_error(f"soundcloud_url", tr("SoundCloud URL must start with https://soundcloud.com/", lang))
+            self.add_error(f"soundcloud_url", tr("SoundCloud URL must start with https://soundcloud.com/"))
         if self.picture and self.picture.size < 1024 * 1024 * 20:
             image_bytes = self.picture.read()
             try:
                 image = Image.open(BytesIO(image_bytes))
                 width, height = image.size
                 if width < 180 or height < 180:
-                    self.add_error(f"picture", tr("Profile picture is not large enough. Must be at least 180x180 pixels.", lang))
+                    self.add_error(f"picture", tr("Profile picture is not large enough. Must be at least 180x180 pixels."))
             except:
-                self.add_error(f"picture", tr("Invalid picture", lang))
+                self.add_error(f"picture", tr("Invalid picture"))
 
 
 class EditDJView(View):
-    def get(self, request, lang):
+    def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in", lang=lang)
+            return redirect(f"log-in")
         try:
             dj = request.user.dj
             form = EditDJForm(
@@ -58,9 +57,9 @@ class EditDJView(View):
             form = EditDJForm(request)
         return render(request, f"edit-dj.html", {f"form": form, f"dj": dj})
 
-    def post(self, request, lang):
+    def post(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in", lang=lang)
+            return redirect(f"log-in")
 
         try:
             dj = request.user.dj
@@ -88,11 +87,11 @@ class EditDJView(View):
             Path(f"static/images/djs").mkdir(parents=True)
             image.resize((180, 180)).save(f"static/images/djs/{dj.id}.png")
 
-        return redirect(f"edit-dj-success", lang=lang)
+        return redirect(f"edit-dj-success")
 
 
 class EditDJSuccessView(View):
-    def get(self, request, lang):
+    def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in", lang=lang)
+            return redirect(f"log-in")
         return render(request, f"edit-dj-success.html")

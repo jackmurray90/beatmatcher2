@@ -40,7 +40,6 @@ translations = {
         "Book a DJ": "Book a DJ",
         "Bookings": "Bookings",
         "Beatmatcher is not directly affiliated with this DJ.": "Beatmatcher is not directly affiliated with this DJ.",
-        "Rate: &euro;%s per hour": "Rate: &euro;%s per hour",
         "Welcome to beatmatcher.org. We are a new start-up that provides DJs a place to showcase their work and get hired by clubs or event organizers.": "Welcome to beatmatcher.org. We are a new start-up that provides DJs a place to showcase their work and get hired by clubs or event organizers.",
         "Book now": "Book now",
         "All payment is handled by the website.": "All payment is handled by the website.",
@@ -60,6 +59,7 @@ translations = {
         "Rate (€ per hour)": "Rate (€ per hour)",
         "Must be square, at least 180x180 pixels, and file size must not exceed 20MB.": "Must be square, at least 180x180 pixels, and file size must not exceed 20MB.",
         "Profile picture is not large enough. Must be at least 180x180 pixels.": "Profile picture is not large enough. Must be at least 180x180 pixels.",
+        "Rate: €%s per hour": "Rate: €%s per hour",
     },
     "de": {
         "Log me in": "Melde mich an",
@@ -102,7 +102,6 @@ translations = {
         "Book a DJ": "Buchen Sie einen DJ",
         "Bookings": "Buchungen",
         "Beatmatcher is not directly affiliated with this DJ.": "Beatmatcher ist nicht direkt mit diesem DJ verbunden.",
-        "Rate: &euro;%s per hour": "Tarif: €%s pro Stunde",
         "Welcome to beatmatcher.org. We are a new start-up that provides DJs a place to showcase their work and get hired by clubs or event organizers.": "Willkommen auf beatmatcher.org. Wir sind ein neues Start-up, das DJs einen Ort bietet, an dem sie ihre Arbeit präsentieren und von Clubs oder Eventorganisatoren engagiert werden können.",
         "Book now": "Buchen Sie jetzt",
         "All payment is handled by the website.": "Die gesamte Zahlung wird über die Website abgewickelt.",

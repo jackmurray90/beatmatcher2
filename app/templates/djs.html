@@ -14,29 +14,29 @@
         <div class="mui-col-lg-4 mui-col-md-9">
           <h2>{{ dj.name }}</h2>
           <p>{{ dj.description }}</p>
-          <p>{{ "Rate: &euro;%s per hour"|tr:lang|with_arg:dj.rate|safe }}</p>
+          <p>{% tr "Rate: €%s per hour" dj.rate %}</p>
           {% if not dj.user %}
-            <p><strong>{{ "Beatmatcher is not directly affiliated with this DJ."|tr:lang }}</strong></p>
+            <p><strong>{% tr "Beatmatcher is not directly affiliated with this DJ." %}</strong></p>
           {% endif %}
           {% if dj.user or dj.booking_url %}
             <form
               class="mui-form"
               style="display: inline-block;"
               method="get"
-              action="{% if dj.user %}{% comment %}url "new-booking" lang=lang dj_username=dj.user.username {% endcomment %}{% else %}{{ dj.booking_url }}{% endif %}"
+              action="{% if dj.user %}{% comment %}url "new-booking" dj_username=dj.user.username {% endcomment %}{% else %}{{ dj.booking_url }}{% endif %}"
             >
               <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">
                 {% if dj.user %}
-                  {{ "Book now"|tr:lang }}
+                  {% tr "Book now" %}
                 {% else %}
-                  {{ "Bookings"|tr:lang }}
+                  {% tr "Bookings" %}
                 {% endif %}
               </button>
             </form>
           {% endif %}
           {% if dj.soundcloud_url %}
             <form class="mui-form" style="display: inline-block;" method="get" action="{{ dj.soundcloud_url }}">
-              <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">{{ "SoundCloud"|tr:lang }}</button>
+              <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "SoundCloud" %}</button>
             </form>
           {% endif %}
         </div>
