@@ -121,6 +121,7 @@ translations = {
         "Rate (€ per hour)": "Tarif (€ pro Stunde)",
         "Must be square, at least 180x180 pixels, and file size must not exceed 20MB.": "Muss quadratisch sein, mindestens 180 x 180 Pixel groß sein und die Dateigröße darf 20 MB nicht überschreiten.",
         "Profile picture is not large enough. Must be at least 180x180 pixels.": "Profilbild ist nicht groß genug. Muss mindestens 180x180 Pixel groß sein.",
+        "Rate: €%s per hour": "Tarif: €%s pro Stunde",
     },
 }
 
