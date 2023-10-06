@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load translation %}
+
+{% block content %}
+  <div class="mui-container-fluid">
+    <div class="mui-row">
+      <div class="mui-col-md-6 mui-col-md-offset-3">
+        <h2>{% tr "Edit bank details" %}</h2>
+        <ul class="mui-tabs__bar">
+          <li
+            {% if region == "us" %}
+              class="mui--is-active"
+            {% endif %}
+          >
+            <a data-mui-toggle="tab" data-mui-controls="us">{% tr "US" %}</a>
+          </li>
+          <li
+            {% if region == "europe" %}
+              class="mui--is-active"
+            {% endif %}
+          >
+            <a data-mui-toggle="tab" data-mui-controls="europe">{% tr "Europe" %}</a>
+          </li>
+          <li
+            {% if region == "australia" %}
+              class="mui--is-active"
+            {% endif %}
+          >
+            <a data-mui-toggle="tab" data-mui-controls="australia">{% tr "Australia" %}</a>
+          </li>
+        </ul>
+        <div class="mui-tabs__pane {% if region == "us" %}mui--is-active{% endif %}" id="us">{{ us_form.render }}</div>
+        <div class="mui-tabs__pane {% if region == "europe" %}mui--is-active{% endif %}" id="europe">{{ europe_form.render }}</div>
+        <div class="mui-tabs__pane {% if region == "australia" %}mui--is-active{% endif %}" id="australia">{{ australia_form.render }}</div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

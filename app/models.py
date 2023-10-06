@@ -38,3 +38,26 @@ class DJ(models.Model):
     booking_url = models.CharField(max_length=200, null=True)
     soundcloud_url = models.CharField(max_length=200, null=True)
     rate = models.IntegerField()
+
+
+class BankDetails(models.Model):
+    REGIONS = [
+        ("us", "United States"),
+        ("australia", "Australia"),
+        ("europe", "Europe"),
+    ]
+    ACCOUNT_TYPES = [
+        ("checking", "Checking"),
+        ("savings", "Savings"),
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    region = models.CharField(max_length=100, choices=REGIONS)
+    # All regions
+    account_holder = models.CharField(max_length=500)
+    # Australia
+    bsb = models.CharField(max_length=20, null=True)
+    # US
+    ach = models.CharField(max_length=100, null=True)
+    account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES, null=True)
+    # Europe, US, and Australia:
+    account_number = models.CharField(max_length=100, null=True)

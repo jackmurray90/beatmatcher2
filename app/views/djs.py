@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.core.exceptions import ValidationError
 from app.models import User, DJ
 from app import forms
 from PIL import Image
