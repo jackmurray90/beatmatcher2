@@ -15,6 +15,17 @@
   <div class="mui-container-fluid">
     <div class="mui-row">
       <div class="mui-col-md-6 mui-col-md-offset-3">
+        {% if booking.stage == "requested" %}
+          {% if booking.dj.user == user %}
+            {% if quote_form %}
+              {{ quote_form.render }}
+            {% else %}
+              <p>{% tr "Please read the details of this booking request, and accept, decline, or provide a quote below." %}</p>
+            {% endif %}
+          {% else %}
+            <p>{% tr "%s has been notified of this booking request and can accept, decline, or provide a quote. You will receive an email once they have responded." booking.dj.name %}</p>
+          {% endif %}
+        {% endif %}
         <table class="mui-table mui-table--bordered">
           <thead>
             <tr>
@@ -77,6 +88,11 @@
             </tr>
           </tbody>
         </table>
+        {% if booking.stage == "requested" and booking.dj.user == user and not quote_form %}
+          {{ accept_form.render }}
+          {{ decline_form.render }}
+          <a href="{% url "quote-booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Give a quote" %}</a>
+        {% endif %}
       </div>
     </div>
   </div>
