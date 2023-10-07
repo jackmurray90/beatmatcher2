@@ -2,25 +2,55 @@
 
 {% load translation %}
 
+{% block head %}
+  <style>
+    .booking-inner-table td { padding: 0 1em; }
+  </style>
+{% endblock %}
+
 {% block content %}
   <div class="mui-container-fluid">
     <div class="mui-row">
       <div class="mui-col-lg-6 mui-col-lg-offset-3">
+        <h2 class="mui--text-center">{% tr "Bookings" %}</h2>
         <table class="mui-table mui-table--bordered">
-          <thead>
+          <thead class="mui--hidden-xs">
             <tr>
-              <th class="mui--hidden-xs">{% tr "Contact name" %}</th>
+              <th>{% tr "Contact name" %}</th>
               <th>{% tr "Set time" %}</th>
-              <th class="mui--hidden-xs">{% tr "Status" %}</th>
+              <th>{% tr "Status" %}</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {% for booking in bookings %}
-              <tr>
-                <td class="mui--hidden-xs">{{ booking.contact_name }}</td>
+              <tr class="mui--visible-xs-block">
+                <td>
+                  <table class="booking-inner-table">
+                    <tr>
+                      <td>{% tr "Contact name" %}</td>
+                      <td>{{ booking.contact_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>{% tr "Set time" %}</td>
+                      <td>{{ booking.set_time }}</td>
+                    </tr>
+                    <tr>
+                      <td>{% tr "Status" %}</td>
+                      <td>{% tr booking.get_stage_display %}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <a href="{% url "booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Go to booking" %}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr class="mui--hidden-xs">
+                <td>{{ booking.contact_name }}</td>
                 <td>{{ booking.set_time }}</td>
-                <td class="mui--hidden-xs">{% tr booking.get_stage_display %}</td>
+                <td>{% tr booking.get_stage_display %}</td>
                 <td><a href="{% url "booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Go to booking" %}</a></td>
               </tr>
             {% endfor %}
