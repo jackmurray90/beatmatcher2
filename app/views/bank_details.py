@@ -38,12 +38,23 @@ class EditBankDetailsView(View):
             bank_details = BankDetails(user=request.user)
 
         if bank_details.region == f"us":
-            us_form = EditUSBankDetailsForm(request, initial_values={f"region": f"us", f"account_holder": bank_details.account_holder, f"ach": bank_details.ach, f"account_number": bank_details.account_number, f"account_type": bank_details.account_type})
+            us_form = EditUSBankDetailsForm(
+                request,
+                initial_values={
+                    f"region": f"us",
+                    f"account_holder": bank_details.account_holder,
+                    f"ach": bank_details.ach,
+                    f"account_number": bank_details.account_number,
+                    f"account_type": bank_details.account_type,
+                },
+            )
         else:
             us_form = EditUSBankDetailsForm(request, initial_values={f"region": f"us"})
 
         if bank_details.region == f"australia":
-            australia_form = EditAustralianBankDetailsForm(request, initial_values={f"region": f"australia", f"account_holder": bank_details.account_holder, f"bsb": bank_details.bsb, f"account_number": bank_details.account_number})
+            australia_form = EditAustralianBankDetailsForm(
+                request, initial_values={f"region": f"australia", f"account_holder": bank_details.account_holder, f"bsb": bank_details.bsb, f"account_number": bank_details.account_number}
+            )
         else:
             australia_form = EditAustralianBankDetailsForm(request, initial_values={f"region": f"australia"})
 
