@@ -14,30 +14,28 @@
         <div class="mui-col-lg-4 mui-col-md-9">
           <h2>{{ dj.name }}</h2>
           <p>{{ dj.description }}</p>
-          <p>{% tr "Rate: €%s per hour" dj.rate %}</p>
+          {% if dj.rate is not None %}
+            <p>{% tr "Rate: €%s per hour" dj.rate %}</p>
+          {% endif %}
           {% if not dj.user %}
             <p><strong>{% tr "Beatmatcher is not directly affiliated with this DJ." %}</strong></p>
           {% endif %}
           {% if dj.user or dj.booking_url %}
-            <form
-              class="mui-form"
-              style="display: inline-block;"
-              method="get"
-              action="{% if dj.user %}{% comment %}url "new-booking" dj_username=dj.user.username {% endcomment %}{% else %}{{ dj.booking_url }}{% endif %}"
+            <a
+              href="{% if dj.user %}{% url "new-booking" dj_id=dj.id %}{% else %}{{ dj.booking_url }}{% endif %}"
+              class="mui-btn mui-btn--primary mui-btn--raised"
             >
-              <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">
-                {% if dj.user %}
-                  {% tr "Book now" %}
-                {% else %}
-                  {% tr "Bookings" %}
-                {% endif %}
-              </button>
-            </form>
+              {% if dj.user %}
+                {% tr "Book now" %}
+              {% else %}
+                {% tr "Bookings" %}
+              {% endif %}
+            </a>
           {% endif %}
           {% if dj.soundcloud_url %}
-            <form class="mui-form" style="display: inline-block;" method="get" action="{{ dj.soundcloud_url }}">
-              <button type="submit" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "SoundCloud" %}</button>
-            </form>
+            <a href="{{ dj.soundcloud_url }}" class="mui-btn mui-btn--primary mui-btn--raised">
+              {% tr "SoundCloud" %}
+            </a>
           {% endif %}
         </div>
       </div>

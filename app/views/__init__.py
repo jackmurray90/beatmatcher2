@@ -15,6 +15,7 @@ from app.views.log_in import (
 from app.views.admin import AdminLanguageView
 from app.views.djs import DJsView, EditDJView, EditDJSuccessView
 from app.views.bank_details import EditBankDetailsView, EditBankDetailsSuccessView
+from app.views.bookings import NewBookingView, VenueBookingView
 
 
 class ConceptView(View):
