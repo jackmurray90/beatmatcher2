@@ -14,6 +14,8 @@ from app.views import (
     EditDJSuccessView,
     EditBankDetailsView,
     EditBankDetailsSuccessView,
+    BookingView,
+    BookingsView,
     NewBookingView,
     VenueBookingView,
 )
@@ -43,6 +45,8 @@ urlpatterns = [
     path("edit-bank-details", EditBankDetailsView.as_view(), name="edit-bank-details"),
     path("edit-bank-details/success", EditBankDetailsSuccessView.as_view(), name="edit-bank-details-success"),
     # Bookings
+    path("bookings", BookingsView.as_view(), name="bookings"),
+    path("booking/<booking_id>", BookingView.as_view(), name="booking"),
     path("new-booking/<dj_id>", NewBookingView.as_view(), name="new-booking"),
     path("venue-booking/<code>", VenueBookingView.as_view(), name="venue-booking"),
 ]

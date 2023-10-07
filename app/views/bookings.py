@@ -100,6 +100,24 @@ class NewBookingView(View):
         return redirect(f"venue-booking", code=booking.code)
 
 
+class BookingsView(View):
+    def get(self, request, tr):
+        if not request.user.is_authenticated:
+            return redirect(f"log-in")
+        bookings = Booking.objects.filter(dj__user=request.user)
+        return render(request, f"bookings.html", {f"bookings": bookings})
+
+
+class BookingView(View):
+    def get(self, request, booking_id, tr):
+        if not request.user.is_authenticated:
+            return redirect(f"log-in")
+        booking = Booking.objects.filter(id=booking_id).first()
+        if not booking or booking.dj.user != request.user:
+            return Http404
+        return render(request, f"venue-booking.html", {f"booking": booking})
+
+
 class VenueBookingView(View):
     def get(self, request, code, tr):
         # Ensure Booking exists

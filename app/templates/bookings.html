@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load translation %}
+
+{% block content %}
+  <div class="mui-container-fluid">
+    <div class="mui-row">
+      <div class="mui-col-lg-6 mui-col-lg-offset-3">
+        <table class="mui-table mui-table--bordered">
+          <thead>
+            <tr>
+              <th class="mui--hidden-xs">{% tr "Contact name" %}</th>
+              <th>{% tr "Set time" %}</th>
+              <th class="mui--hidden-xs">{% tr "Status" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in bookings %}
+              <tr>
+                <td class="mui--hidden-xs">{{ booking.contact_name }}</td>
+                <td>{{ booking.set_time }}</td>
+                <td class="mui--hidden-xs">{% tr booking.get_stage_display %}</td>
+                <td><a href="{% url "booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Go to booking" %}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
