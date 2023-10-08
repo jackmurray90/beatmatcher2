@@ -6,7 +6,7 @@ from app.models import Booking, DJ
 from app.util import random_128_bit_string
 from app import forms
 from app.emails import send_new_booking_email
-from datetime import datetime
+from datetime import datetime, timezone
 from django.conf import settings
 import stripe
 
@@ -76,7 +76,7 @@ class NewBookingView(View):
         booking.post_code = form.post_code
         booking.country = form.country
         # Booking
-        booking.set_time = datetime.strptime(form.set_time, f"%Y-%m-%d %H:%M")
+        booking.set_time = datetime.strptime(form.set_time, f"%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
         booking.hours = int(form.hours)
         booking.equipment_information = form.equipment_information
         booking.other_information = form.other_information
