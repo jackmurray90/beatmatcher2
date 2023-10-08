@@ -112,3 +112,5 @@ class Booking(models.Model):
     extra_budget = models.IntegerField(null=True)
     rate = models.IntegerField(null=True)
     quote = models.IntegerField(null=True)
+    # Stripe payment checkout session id
+    checkout_session_id = models.CharField(max_length=500, null=True)
