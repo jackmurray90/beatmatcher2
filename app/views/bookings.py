@@ -108,21 +108,8 @@ class BookingsView(View):
         return render(request, f"bookings.html", {f"bookings": bookings})
 
 
-class AcceptForm(forms.Form):
-    __inline__ = True
-    response = forms.HiddenField()
-    submit = forms.SubmitButton("Accept")
-
-
-class DeclineForm(forms.Form):
-    __inline__ = True
-    response = forms.HiddenField()
-    submit = forms.SubmitButton("Decline")
-
-
 class QuoteForm(forms.Form):
     __title__ = "Quote"
-    response = forms.HiddenField()
     quote = forms.IntegerField("Quote (in €)", positive=True)
     submit = forms.SubmitButton("Give a quote")
 
@@ -134,9 +121,7 @@ class BookingView(View):
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user:
             return Http404
-        accept_form = AcceptForm(request, action=reverse(f"process-booking", kwargs={f"booking_id": booking.id}), initial_values={f"response": f"accept"})
-        decline_form = DeclineForm(request, action=reverse(f"process-booking", kwargs={f"booking_id": booking.id}), initial_values={f"response": f"decline"})
-        return render(request, f"venue-booking.html", {f"booking": booking, f"accept_form": accept_form, f"decline_form": decline_form})
+        return render(request, f"venue-booking.html", {f"booking": booking})
 
 
 class QuoteBookingView(View):
@@ -144,29 +129,46 @@ class QuoteBookingView(View):
         if not request.user.is_authenticated:
             return redirect(f"log-in")
         booking = Booking.objects.filter(id=booking_id).first()
-        if not booking or booking.dj.user != request.user:
+        if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
-        quote_form = QuoteForm(request, action=reverse(f"process-booking", kwargs={f"booking_id": booking.id}), initial_values={f"response": f"quote"})
+        quote_form = QuoteForm(request)
         return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form})
 
-
-class ProcessBookingView(View):
     def post(self, request, booking_id, tr):
         if not request.user.is_authenticated:
             return redirect(f"log-in")
         booking = Booking.objects.filter(id=booking_id).first()
-        if not booking or booking.dj.user != request.user:
+        if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
-        if request.POST[f"response"] == f"accept":
-            booking.stage = Booking.ACCEPTED
-        elif request.POST[f"response"] == f"decline":
-            booking.stage = Booking.DECLINED
-        elif request.POST[f"response"] == f"quote":
-            quote_form = QuoteForm(request, action=reverse(f"process-booking", kwargs={f"booking_id": booking.id}))
-            if not quote_form.is_valid:
-                return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form})
-            booking.quote = int(quote_form.quote)
-            booking.stage = Booking.QUOTE
+        quote_form = QuoteForm(request)
+        if not quote_form.is_valid:
+            return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form})
+        booking.quote = int(quote_form.quote)
+        booking.stage = Booking.QUOTE
+        booking.save()
+        return redirect(f"booking", booking_id=booking.id)
+
+
+class AcceptBookingView(View):
+    def post(self, request, booking_id, tr):
+        if not request.user.is_authenticated:
+            return redirect(f"log-in")
+        booking = Booking.objects.filter(id=booking_id).first()
+        if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
+            return Http404
+        booking.stage = Booking.ACCEPTED
+        booking.save()
+        return redirect(f"booking", booking_id=booking.id)
+
+
+class DeclineBookingView(View):
+    def post(self, request, booking_id, tr):
+        if not request.user.is_authenticated:
+            return redirect(f"log-in")
+        booking = Booking.objects.filter(id=booking_id).first()
+        if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
+            return Http404
+        booking.stage = Booking.DECLINED
         booking.save()
         return redirect(f"booking", booking_id=booking.id)
 

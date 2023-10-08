@@ -15,17 +15,61 @@
   <div class="mui-container-fluid">
     <div class="mui-row">
       <div class="mui-col-md-6 mui-col-md-offset-3">
+
+        {% comment %} REQUESTED STAGE {% endcomment %}
+
         {% if booking.stage == "requested" %}
           {% if booking.dj.user == user %}
             {% if quote_form %}
               {{ quote_form.render }}
             {% else %}
-              <p>{% tr "Please read the details of this booking request, and accept, decline, or provide a quote below." %}</p>
+              <p>{% tr "Please read the details of this booking request, and accept, decline, or provide a quote." %}</p>
+              <p>
+                <a data-post="{% url "accept-booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Accept booking" %}</a>
+                <a data-post="{% url "decline-booking" booking_id=booking.id %}" class="mui-btn mui-btn--danger mui-btn--raised">{% tr "Decline booking" %}</a>
+                <a href="{% url "quote-booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Give a quote" %}</a>
+              </p>
             {% endif %}
           {% else %}
             <p>{% tr "%s has been notified of this booking request and can accept, decline, or provide a quote. You will receive an email once they have responded." booking.dj.name %}</p>
           {% endif %}
         {% endif %}
+
+        {% comment %} ACCEPTED STAGE {% endcomment %}
+
+        {% if booking.stage == "accepted" %}
+          {% if booking.dj.user == user %}
+            <p>{% tr "You have accepted this booking request. Now we will wait until the event organizer has made payment, then we will notify you by email when the booking is confirmed." %}</p>
+          {% else %}
+            <p>{% tr "This booking request has been accepted by the DJ. Click below to make payment, and the booking will become confirmed." %}</p>
+            <p><a href="#" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a></p>
+          {% endif %}
+        {% endif %}
+
+        {% comment %} DECLINED STAGE {% endcomment %}
+
+        {% if booking.stage == "declined" %}
+          {% if booking.quote is not None %}
+            <p>{% tr "This booking request was declined by the event organizer." %}</p>
+          {% else %}
+            <p>{% tr "This booking request was declined by the DJ." %}</p>
+          {% endif %}
+        {% endif %}
+
+        {% comment %} QUOTE STAGE {% endcomment %}
+
+        {% if booking.stage == "quote" %}
+          {% if booking.dj.user == user %}
+            <p>{% tr "You have quoted €%s for this booking request. We have contacted the event organizer and will let you know by email if they accept or decline the quote." booking.quote %}</p>
+          {% else %}
+            <p>{% tr "%s has quoted €%s for this booking request. If this is acceptable, please click below to make payment and the booking will become confirmed. Otherwise, please click decline." booking.dj.name booking.quote %}</p>
+            <p>
+              <a href="#" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a>
+              <a href="#" class="mui-btn mui-btn--danger mui-btn--raised">{% tr "Decline quote" %}</a>
+            </p>
+          {% endif %}
+        {% endif %}
+
         <table class="mui-table mui-table--bordered">
           <thead>
             <tr>
@@ -88,11 +132,6 @@
             </tr>
           </tbody>
         </table>
-        {% if booking.stage == "requested" and booking.dj.user == user and not quote_form %}
-          {{ accept_form.render }}
-          {{ decline_form.render }}
-          <a href="{% url "quote-booking" booking_id=booking.id %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Give a quote" %}</a>
-        {% endif %}
       </div>
     </div>
   </div>
