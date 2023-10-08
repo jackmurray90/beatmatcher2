@@ -65,7 +65,7 @@
             <p>{% tr "%s has quoted €%s for this booking request. If this is acceptable, please click below to make payment and the booking will become confirmed. Otherwise, please click decline." booking.dj.name booking.quote %}</p>
             <p>
               <a href="#" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a>
-              <a href="#" class="mui-btn mui-btn--danger mui-btn--raised">{% tr "Decline quote" %}</a>
+              <a data-post="{% url "venue-decline-booking" code=booking.code %}" class="mui-btn mui-btn--danger mui-btn--raised">{% tr "Decline quote" %}</a>
             </p>
           {% endif %}
         {% endif %}
@@ -123,7 +123,7 @@
             {% if booking.extra_budget %}
               <tr>
                 <td>{% tr "Extra budget" %}</td>
-                <td>{{ booking.extra_budget }}</td>
+                <td>{{ "€" }}{{ booking.extra_budget }}</td>
               </tr>
             {% endif %}
             <tr>

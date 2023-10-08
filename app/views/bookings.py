@@ -173,6 +173,16 @@ class DeclineBookingView(View):
         return redirect(f"booking", booking_id=booking.id)
 
 
+class VenueDeclineBookingView(View):
+    def post(self, request, code, tr):
+        booking = Booking.objects.filter(code=code).first()
+        if not booking or booking.stage != Booking.QUOTE:
+            return Http404
+        booking.stage = Booking.DECLINED
+        booking.save()
+        return redirect(f"venue-booking", code=code)
+
+
 class VenueBookingView(View):
     def get(self, request, code, tr):
         # Ensure Booking exists
