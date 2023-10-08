@@ -42,7 +42,7 @@
             <p>{% tr "You have accepted this booking request. Now we will wait until the event organizer has made payment, then we will notify you by email when the booking is confirmed." %}</p>
           {% else %}
             <p>{% tr "This booking request has been accepted by the DJ. Click below to make payment, and the booking will become confirmed." %}</p>
-            <p><a href="#" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a></p>
+            <p><a href="{% url "booking-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a></p>
           {% endif %}
         {% endif %}
 
@@ -64,9 +64,19 @@
           {% else %}
             <p>{% tr "%s has quoted €%s for this booking request. If this is acceptable, please click below to make payment and the booking will become confirmed. Otherwise, please click decline." booking.dj.name booking.quote %}</p>
             <p>
-              <a href="#" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a>
+              <a href="{% url "booking-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a>
               <a data-post="{% url "venue-decline-booking" code=booking.code %}" class="mui-btn mui-btn--danger mui-btn--raised">{% tr "Decline quote" %}</a>
             </p>
+          {% endif %}
+        {% endif %}
+
+        {% comment %} PAID STAGE {% endcomment %}
+
+        {% if booking.stage == "paid" %}
+          {% if booking.dj.user == user %}
+            <p>{% tr "The event organizer has paid for this booking and the booking is confirmed. We will transfer the money into your account after the event organizer marks the booking as complete. This will happen automatically 3 days after the event." %}</p>
+          {% else %}
+            <p>{% tr "Payment is complete and this booking is confirmed." %}</p>
           {% endif %}
         {% endif %}
 

@@ -8,6 +8,11 @@ from app.models import Booking, DJ
 from app.util import random_128_bit_string
 from app import forms
 from datetime import datetime
+from django.conf import settings
+import stripe
+
+
+stripe.api_key = settings.STRIPE_API_KEY
 
 
 class NewBookingForm(forms.Form):
@@ -189,4 +194,65 @@ class VenueBookingView(View):
         booking = Booking.objects.filter(code=code).first()
         if not booking:
             raise Http404
+        if booking.stage in [Booking.ACCEPTED, Booking.QUOTE] and booking.checkout_session_id:
+            checkout_session = stripe.checkout.Session.retrieve(booking.checkout_session_id)
+            if checkout_session.payment_status == f"paid":
+                booking.stage = Booking.PAID
+                booking.save()
         return render(request, f"venue-booking.html", {f"booking": booking})
+
+
+class BookingInvoiceView(View):
+    def get(self, request, code, tr):
+        # Ensure Booking exists
+        booking = Booking.objects.filter(code=code).first()
+        if not booking or booking.stage not in [Booking.ACCEPTED, Booking.QUOTE]:
+            raise Http404
+        if booking.stage == Booking.QUOTE:
+            total = booking.quote * 100
+        else:
+            total = booking.rate * booking.hours * 100
+        payment_fee = int(total * 0.035) + 19
+        service_fee = int(total * 0.01)
+        if booking.checkout_session_id:
+            checkout_session = stripe.checkout.Session.retrieve(booking.checkout_session_id)
+        else:
+            checkout_session = stripe.checkout.Session.create(
+                line_items=[
+                    {
+                        f"price_data": {
+                            f"currency": f"EUR",
+                            f"product_data": {
+                                f"name": booking.dj.name,
+                            },
+                            f"unit_amount": total,
+                        },
+                        f"quantity": 1,
+                    },
+                    {
+                        f"price_data": {
+                            f"currency": f"EUR",
+                            f"product_data": {
+                                f"name": tr("Service fee"),
+                            },
+                            f"unit_amount": service_fee,
+                        },
+                        f"quantity": 1,
+                    },
+                    {
+                        f"price_data": {
+                            f"currency": f"EUR",
+                            f"product_data": {
+                                f"name": tr("Payment processing fee"),
+                            },
+                            f"unit_amount": payment_fee,
+                        },
+                        f"quantity": 1,
+                    },
+                ],
+                mode=f"payment",
+                success_url=request.build_absolute_uri(reverse(f"venue-booking", kwargs={f"code": booking.code})),
+            )
+            booking.checkout_session_id = checkout_session.id
+            booking.save()
+        return redirect(checkout_session.url)
