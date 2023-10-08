@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views import View
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
 from django.urls import reverse
 from app.models import Booking, DJ
 from app.util import random_128_bit_string
 from app import forms
+from app.emails import send_new_booking_email
 from datetime import datetime
 from django.conf import settings
 import stripe
@@ -87,20 +86,8 @@ class NewBookingView(View):
         # Save the booking request
         booking.save()
 
-        # Generate the email to the DJ
-        # lang = dj.user.settings.language.code
-        # plaintext = get_template(f"new-booking-email-{lang}.txt")
-        # html = get_template(f"new-booking-email-{lang}.html")
-        # subject = tr("New booking on Beatmatcher")
-        # from_email = f"no-reply@beatmatcher.org"
-        # to = dj.user.email
-        # text_content = plaintext.render({f"url": request.build_absolute_uri(reverse(f"booking", kwargs={f"booking_id": booking.id}))})
-        # html_content = html.render({f"url": request.build_absolute_uri(reverse(f"booking", kwargs={f"booking_id": booking.id}))})
-
-        # Create the email message with the content and send it
-        # message = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        # message.attach_alternative(html_content, f"text/html")
-        # message.send()
+        # Generate the email to the DJ about the new booking request.
+        send_new_booking_email(request, dj, booking.id)
 
         return redirect(f"venue-booking", code=booking.code)
 

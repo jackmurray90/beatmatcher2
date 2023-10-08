@@ -1,0 +1,9 @@
+{% load translation %}
+
+<h1>{% tr "New booking request on Beatmatcher" %}</h1>
+
+<p>{% tr "Somebody has made a booking request for your profile." %}</p>
+
+<p>{% tr "Please review the booking request at the following URL:" %}</p>
+
+<p><a clicktracking="off" href="{{ url }}">{{ url }}</a></p>

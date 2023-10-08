@@ -1,0 +1,9 @@
+{% load translation %}
+
+{% tr "New booking request on Beatmatcher" %}
+
+{% tr "Somebody has made a booking request for your profile." %}
+
+{% tr "Please review the booking request at the following URL:" %}
+
+{{ url }}
