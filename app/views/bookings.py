@@ -5,7 +5,7 @@ from django.urls import reverse
 from app.models import Booking, DJ
 from app.util import random_128_bit_string
 from app import forms
-from app.emails import send_new_booking_email
+from app.emails import send_new_booking_email, send_quote_email
 from datetime import datetime, timezone
 from django.conf import settings
 import stripe
@@ -61,6 +61,7 @@ class NewBookingView(View):
 
         # Set the fields from the request
         booking = Booking()
+        booking.language = request.session[f"language"]
         booking.stage = Booking.REQUESTED
         booking.dj = dj
         booking.code = random_128_bit_string()
@@ -87,7 +88,7 @@ class NewBookingView(View):
         booking.save()
 
         # Generate the email to the DJ about the new booking request.
-        send_new_booking_email(request, dj, booking.id)
+        send_new_booking_email(request, booking)
 
         return redirect(f"venue-booking", code=booking.code)
 
@@ -138,6 +139,7 @@ class QuoteBookingView(View):
         booking.quote = int(quote_form.quote)
         booking.stage = Booking.QUOTE
         booking.save()
+        send_quote_email(request, booking)
         return redirect(f"booking", booking_id=booking.id)
 
 

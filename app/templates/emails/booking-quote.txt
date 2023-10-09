@@ -1,0 +1,9 @@
+{% load translation %}
+
+{% tr "Quote received for booking request on Beatmatcher" %}
+
+{% tr "Your booking request has received a quote from the DJ." %}
+
+{% tr "Please review the quote at the following URL:" %}
+
+{{ url }}

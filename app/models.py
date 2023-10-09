@@ -97,6 +97,7 @@ class Booking(models.Model):
     contact_name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=50)
     email = models.EmailField()
+    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True)
     # Address
     address_line_1 = models.CharField(max_length=200)
     address_line_2 = models.CharField(max_length=200)
