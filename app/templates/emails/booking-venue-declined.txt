@@ -1,0 +1,9 @@
+{% load translation %}
+
+{% tr "Quote declined on Beatmatcher" %}
+
+{% tr "Your quote for a booking has been declined by the venue." %}
+
+{% tr "Information about this booking can be found at the following URL:" %}
+
+{{ url }}

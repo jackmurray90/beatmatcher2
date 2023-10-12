@@ -1,0 +1,9 @@
+{% load translation %}
+
+{% tr "Booking request declined on Beatmatcher" %}
+
+{% tr "Your booking request has been declined by the DJ." %}
+
+{% tr "Information about this booking request can be found at the following URL:" %}
+
+{{ url }}

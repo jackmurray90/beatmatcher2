@@ -5,7 +5,7 @@ from django.urls import reverse
 from app.models import Booking, DJ
 from app.util import random_128_bit_string
 from app import forms
-from app.emails import send_new_booking_email, send_quote_email, send_accepted_email
+from app.emails import send_new_booking_email, send_quote_email, send_accepted_email, send_declined_email, send_venue_declined_email
 from datetime import datetime, timezone, timedelta
 from time import mktime
 from django.conf import settings
@@ -166,6 +166,7 @@ class DeclineBookingView(View):
             return Http404
         booking.stage = Booking.DECLINED
         booking.save()
+        send_declined_email(request, booking)
         return redirect(f"booking", booking_id=booking.id)
 
 
@@ -176,6 +177,7 @@ class VenueDeclineBookingView(View):
             return Http404
         booking.stage = Booking.DECLINED
         booking.save()
+        send_venue_declined_email(request, booking)
         return redirect(f"venue-booking", code=code)
 
 
