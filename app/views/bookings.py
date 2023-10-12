@@ -5,8 +5,8 @@ from django.urls import reverse
 from app.models import Booking, DJ
 from app.util import random_128_bit_string
 from app import forms
-from app.emails import send_new_booking_email, send_quote_email
-from datetime import datetime, timezone
+from app.emails import send_new_booking_email, send_quote_email, send_accepted_email
+from datetime import datetime, timezone, timedelta
 from django.conf import settings
 import stripe
 
@@ -97,7 +97,7 @@ class BookingsView(View):
     def get(self, request, tr):
         if not request.user.is_authenticated:
             return redirect(f"log-in")
-        bookings = Booking.objects.filter(dj__user=request.user)
+        bookings = Booking.objects.filter(dj__user=request.user).order_by("set_time")
         return render(request, f"bookings.html", {f"bookings": bookings})
 
 
@@ -152,6 +152,7 @@ class AcceptBookingView(View):
             return Http404
         booking.stage = Booking.ACCEPTED
         booking.save()
+        send_accepted_email(request, booking)
         return redirect(f"booking", booking_id=booking.id)
 
 

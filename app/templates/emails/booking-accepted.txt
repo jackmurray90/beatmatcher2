@@ -1,0 +1,9 @@
+{% load translation %}
+
+{% tr "Booking request accepted on Beatmatcher" %}
+
+{% tr "Your booking request has been accepted by the DJ." %}
+
+{% tr "Please confirm the booking by making payment at the following URL:" %}
+
+{{ url }}

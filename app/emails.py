@@ -58,3 +58,22 @@ def send_quote_email(request, booking):
     message = EmailMultiAlternatives(subject, text_content, from_email, [to])
     message.attach_alternative(html_content, f"text/html")
     message.send()
+
+
+def send_accepted_email(request, booking):
+    language = booking.language
+    # Load the content
+    plaintext = get_template(f"emails/booking-accepted.txt")
+    html = get_template(f"emails/booking-accepted.html")
+    subject = tr("%s: Booking request accepted", language) % settings.SITE_TITLE
+    from_email = f"no-reply@{request.get_host()}"
+    to = booking.email
+    url = request.build_absolute_uri(reverse(f"venue-booking", kwargs={f"code": booking.code}))
+    context = {f"language": language, f"url": url}
+    text_content = plaintext.render(context)
+    html_content = html.render(context)
+
+    # Create the email message with the content and send it
+    message = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    message.attach_alternative(html_content, f"text/html")
+    message.send()
