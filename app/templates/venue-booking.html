@@ -19,7 +19,7 @@
         {% comment %} REQUESTED STAGE {% endcomment %}
 
         {% if booking.stage == "requested" %}
-          {% if booking.dj.user == user %}
+          {% if is_dj %}
             {% if quote_form %}
               {{ quote_form.render }}
             {% else %}
@@ -38,7 +38,7 @@
         {% comment %} ACCEPTED STAGE {% endcomment %}
 
         {% if booking.stage == "accepted" %}
-          {% if booking.dj.user == user %}
+          {% if is_dj %}
             <p>{% tr "You have accepted this booking request. Now we will wait until the event organizer has made payment, then we will notify you by email when the booking is confirmed." %}</p>
           {% else %}
             <p>{% tr "This booking request has been accepted by the DJ. Click below to make payment, and the booking will become confirmed." %}</p>
@@ -59,7 +59,7 @@
         {% comment %} QUOTE STAGE {% endcomment %}
 
         {% if booking.stage == "quote" %}
-          {% if booking.dj.user == user %}
+          {% if is_dj %}
             <p>{% tr "You have quoted €%s for this booking request. We have contacted the event organizer and will let you know by email if they accept or decline the quote." booking.quote %}</p>
           {% else %}
             <p>{% tr "%s has quoted €%s for this booking request. If this is acceptable, please click below to make payment and the booking will become confirmed. Otherwise, please click decline." booking.dj.name booking.quote %}</p>
@@ -73,7 +73,7 @@
         {% comment %} PAID STAGE {% endcomment %}
 
         {% if booking.stage == "paid" %}
-          {% if booking.dj.user == user %}
+          {% if is_dj %}
             <p>{% tr "The event organizer has paid for this booking and the booking is confirmed. We will transfer the money into your account after the event organizer marks the booking as complete. This will happen automatically 3 days after the event." %}</p>
           {% else %}
             <p>{% tr "Payment is complete and this booking is confirmed." %}</p>

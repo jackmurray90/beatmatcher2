@@ -115,7 +115,7 @@ class BookingView(View):
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user:
             return Http404
-        return render(request, f"venue-booking.html", {f"booking": booking})
+        return render(request, f"venue-booking.html", {f"booking": booking, f"is_dj": True})
 
 
 class QuoteBookingView(View):
@@ -126,7 +126,7 @@ class QuoteBookingView(View):
         if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
         quote_form = QuoteForm(request)
-        return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form})
+        return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form, f"is_dj": True})
 
     def post(self, request, booking_id, tr):
         if not request.user.is_authenticated:
@@ -136,7 +136,7 @@ class QuoteBookingView(View):
             return Http404
         quote_form = QuoteForm(request)
         if not quote_form.is_valid:
-            return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form})
+            return render(request, f"venue-booking.html", {f"booking": booking, f"quote_form": quote_form, f"is_dj": True})
         booking.quote = int(quote_form.quote)
         booking.stage = Booking.QUOTE
         booking.save()
