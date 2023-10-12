@@ -1,0 +1,11 @@
+{% load translation %}
+
+{% tr "Booking confirmed on Beatmatcher" %}
+
+{% tr "Get ready to perform!" %}
+
+{% tr "The event organizer has paid for their booking and the booking is confirmed." %}
+
+{% tr "View information about the booking at the URL below:" %}
+
+{{ url }}
