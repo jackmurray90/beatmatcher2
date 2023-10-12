@@ -7,6 +7,7 @@ from app.util import random_128_bit_string
 from app import forms
 from app.emails import send_new_booking_email, send_quote_email, send_accepted_email
 from datetime import datetime, timezone, timedelta
+from time import mktime
 from django.conf import settings
 import stripe
 
@@ -242,6 +243,7 @@ class BookingInvoiceView(View):
                 ],
                 mode=f"payment",
                 success_url=request.build_absolute_uri(reverse(f"venue-booking", kwargs={f"code": booking.code})),
+                expires_at=mktime((booking.set_time + timedelta(days=1)).timetuple()),
             )
             booking.checkout_session_id = checkout_session.id
             booking.save()
