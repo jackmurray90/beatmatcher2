@@ -9,6 +9,10 @@
         <p><a href="{% url "edit-dj" %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Edit DJ profile" %}</a></p>
         <p><a href="{% url "edit-bank-details" %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Edit bank details" %}</a></p>
         <p><a href="{% url "bookings" %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "View bookings" %}</a></p>
+        {% if user.is_staff %}
+          <h3>{% tr "Admin" %}</h3>
+          <p><a href="{% url "admin-edit-dj" dj_id="new" %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "New DJ" %}</a></p>
+        {% endif %}
       </div>
     </div>
   </div>

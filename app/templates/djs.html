@@ -37,6 +37,11 @@
               {% tr "SoundCloud" %}
             </a>
           {% endif %}
+          {% if user.is_staff %}
+            <a href="{% url "admin-edit-dj" dj_id=dj.id %}" class="mui-btn mui-btn--primary mui-btn--raised">
+              {% tr "Edit" %}
+            </a>
+          {% endif %}
         </div>
       </div>
       <hr>

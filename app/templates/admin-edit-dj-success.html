@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load translation %}
+
+{% block content %}
+  <div class="mui-container-fluid">
+    <div class="mui-row">
+      <div class="mui-col-md-4 mui-col-md-offset-4">
+        <p>{% tr "DJ profilie was successfully updated." %}</p>
+        <p><a href="{% url "admin-edit-dj" dj_id=dj.id %}">{% tr "Back to DJ profile" %}</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -13,7 +13,7 @@ from app.views.log_in import (
     LogOutView,
 )
 from app.views.admin import AdminLanguageView
-from app.views.djs import DJsView, EditDJView, EditDJSuccessView
+from app.views.djs import DJsView, EditDJView, EditDJSuccessView, AdminEditDJView, AdminEditDJSuccessView
 from app.views.bank_details import EditBankDetailsView, EditBankDetailsSuccessView
 from app.views.bookings import QuoteBookingView, AcceptBookingView, BookingInvoiceView, DeclineBookingView, VenueDeclineBookingView, BookingView, BookingsView, NewBookingView, VenueBookingView
 

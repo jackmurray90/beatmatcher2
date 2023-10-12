@@ -163,6 +163,12 @@ translations = {
         "This booking request was declined by the event organizer.": "This booking request was declined by the event organizer.",
         "Quote (in €)": "Quote (in €)",
         "Contact name": "Contact name",
+        "Booking URL": "Booking URL",
+        "Admin": "Admin",
+        "Admin edit DJ profile": "Admin edit DJ profile",
+        "Edit": "Edit",
+        "New DJ": "New DJ",
+        "DJ profilie was successfully updated.": "DJ profilie was successfully updated.",
     },
     "de": {
         "Log me in": "Melde mich an",
@@ -328,6 +334,12 @@ translations = {
         "This booking request was declined by the event organizer.": "Diese Buchungsanfrage wurde vom Veranstalter abgelehnt.",
         "Quote (in €)": "Angebot (in €)",
         "Contact name": "Kontaktname",
+        "Booking URL": "Buchungs-URL",
+        "Admin": "Administrator",
+        "Admin edit DJ profile": "Admin bearbeitet DJ-Profil",
+        "Edit": "Bearbeiten",
+        "New DJ": "Neuer DJ",
+        "DJ profilie was successfully updated.": "DJ-Profil wurde erfolgreich aktualisiert.",
     },
 }
 
