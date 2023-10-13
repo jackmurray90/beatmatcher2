@@ -62,7 +62,7 @@ class NewBookingView(View):
 
         # Set the fields from the request
         booking = Booking()
-        booking.language = request.session[f"language"]
+        booking.language = Languge.objects.get(code=request.session[f"language"])
         booking.stage = Booking.REQUESTED
         booking.dj = dj
         booking.code = random_128_bit_string()
