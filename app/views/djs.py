@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from time import time
 from app.models import User, DJ
 from app import forms
 from PIL import Image
@@ -64,7 +65,7 @@ class EditDJView(View):
         try:
             dj = request.user.dj
         except User.dj.RelatedObjectDoesNotExist:
-            dj = DJ(user=request.user, picture=False)
+            dj = DJ(user=request.user)
 
         form = EditDJForm(request)
 
@@ -74,7 +75,7 @@ class EditDJView(View):
         dj.name = form.name
         dj.description = form.description
         if form.picture:
-            dj.picture = True
+            dj.picture = int(time())
         dj.soundcloud_url = form.soundcloud_url
         dj.rate = int(form.rate)
 
@@ -149,7 +150,7 @@ class AdminEditDJView(View):
         if not request.user.is_staff:
             return redirect(f"log-in", path=reverse(f"admin-edit-dj", dj_id=dj_id))
         if dj_id == f"new":
-            dj = DJ(picture=False)
+            dj = DJ()
         else:
             try:
                 dj = DJ.objects.get(id=dj_id)
@@ -164,7 +165,7 @@ class AdminEditDJView(View):
         dj.name = form.name
         dj.description = form.description
         if form.picture:
-            dj.picture = True
+            dj.picture = int(time())
         dj.soundcloud_url = form.soundcloud_url
         dj.booking_url = form.booking_url
         dj.rate = int(form.rate) if form.rate else None

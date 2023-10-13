@@ -8,7 +8,7 @@
     <div class="mui-row">
       <div class="mui-col-lg-3 mui-col-md-3">
         {% if dj.picture %}
-          <img src="{% get_static_prefix %}images/djs/{{ dj.id }}.png?{% timestamp %}" style="margin-top: 1em">
+          <img src="{% get_static_prefix %}images/djs/{{ dj.id }}.png?{{ dj.picture }}" style="margin-top: 1em">
         {% endif %}
       </div>
       <div class="mui-col-lg-6 mui-col-md-9">

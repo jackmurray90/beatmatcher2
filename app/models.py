@@ -42,7 +42,7 @@ class DJ(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
-    picture = models.BooleanField()
+    picture = models.IntegerField(null=True) # timestamp of uploaded picture
     booking_url = models.CharField(max_length=200, null=True)
     soundcloud_url = models.CharField(max_length=200, null=True)
     rate = models.IntegerField(null=True)
