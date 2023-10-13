@@ -17,6 +17,8 @@ from app.views import (
     EditBankDetailsView,
     EditBankDetailsSuccessView,
     BookingInvoiceView,
+    BookingBankInvoiceView,
+    BookingBankInvoiceSentView,
     BookingView,
     BookingsView,
     AcceptBookingView,
@@ -63,4 +65,6 @@ urlpatterns = [
     path("venue-booking/<code>", VenueBookingView.as_view(), name="venue-booking"),
     path("venue-booking/<code>/decline", VenueDeclineBookingView.as_view(), name="venue-decline-booking"),
     path("venue-booking/<code>/invoice", BookingInvoiceView.as_view(), name="booking-invoice"),
+    path("venue-booking/<code>/bank-invoice", BookingBankInvoiceView.as_view(), name="booking-bank-invoice"),
+    path("venue-booking/<code>/bank-invoice-sent", BookingBankInvoiceSentView.as_view(), name="booking-bank-invoice-sent"),
 ]

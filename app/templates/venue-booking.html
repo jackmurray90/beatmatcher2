@@ -42,7 +42,11 @@
             <p>{% tr "You have accepted this booking request. Now we will wait until the event organizer has made payment, then we will notify you by email when the booking is confirmed." %}</p>
           {% else %}
             <p>{% tr "This booking request has been accepted by the DJ. Click below to make payment, and the booking will become confirmed." %}</p>
-            <p><a href="{% url "booking-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a></p>
+            <p>{% tr "Credit card has a 3.5% payment processing fee, bank transfer is free." %}</p>
+            <p>
+              <a href="{% url "booking-bank-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Pay by bank transfer" %}</a>
+              <a href="{% url "booking-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Pay by credit card" %}</a>
+            </p>
           {% endif %}
         {% endif %}
 
@@ -63,8 +67,10 @@
             <p>{% tr "You have quoted €%s for this booking request. We have contacted the event organizer and will let you know by email if they accept or decline the quote." booking.quote %}</p>
           {% else %}
             <p>{% tr "%s has quoted €%s for this booking request. If this is acceptable, please click below to make payment and the booking will become confirmed. Otherwise, please click decline." booking.dj.name booking.quote %}</p>
+            <p>{% tr "Credit card has a 3.5% payment processing fee, bank transfer is free." %}</p>
             <p>
-              <a href="{% url "booking-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Make payment" %}</a>
+              <a href="{% url "booking-bank-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Pay by bank transfer" %}</a>
+              <a href="{% url "booking-invoice" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "Pay by credit card" %}</a>
               <a data-post="{% url "venue-decline-booking" code=booking.code %}" class="mui-btn mui-btn--danger mui-btn--raised">{% tr "Decline quote" %}</a>
             </p>
           {% endif %}

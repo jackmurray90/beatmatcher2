@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load translation %}
+
+{% block content %}
+  <div class="mui-container-fluid">
+    <div class="mui-row">
+      <div class="mui-col-md-6 mui-col-md-offset-3">
+        <h2>{% tr "Make a payment" %}</h2>
+        <p>{% tr "Booking %s for a set at" booking.dj.name %} {{ booking.set_time }}</p>
+        <p>{% tr "DJ fee: €%s" dj_total %}</p>
+        <p>{% tr "Service fee: €%s" service_fee %}</p>
+        <p>{% tr "Booking total: €%s" total %}</p>
+        <p>{% tr "Please make payment to one of the following bank accounts, including the reference number in the description for the transaction." %}</p>
+        <ul class="mui-tabs__bar">
+          <li>
+            <a data-mui-toggle="tab" data-mui-controls="us">{% tr "US" %}</a>
+          </li>
+          <li class="mui--is-active">
+            <a data-mui-toggle="tab" data-mui-controls="europe">{% tr "Europe" %}</a>
+          </li>
+          <li>
+            <a data-mui-toggle="tab" data-mui-controls="australia">{% tr "Australia" %}</a>
+          </li>
+        </ul>
+        <div class="mui-tabs__pane" id="us">
+          <table class="mui-table">
+            <tr>
+              <th>{% tr "Account holder" %}</th>
+              <td>{{ "BEATMATCHER" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "ACH and Wire routing number" %}</th>
+              <td>{{ "026073150" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "Account number" %}</th>
+              <td>{{ "8313799118" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "Account type" %}</th>
+              <td>{% tr "Checking" %}</td>
+            </tr>
+            <tr>
+              <th>{% tr "Reference number" %}</th>
+              <td>{{ booking.id }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="mui-tabs__pane mui--is-active" id="europe">
+          <table class="mui-table">
+            <tr>
+              <th>{% tr "Account holder" %}</th>
+              <td>{{ "BEATMATCHER" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "BIC" %}</th>
+              <td>{{ "TRWIBEB1XXX" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "IBAN" %}</th>
+              <td>{{ "BE88967774445841" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "Reference number" %}</th>
+              <td>{{ booking.id }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="mui-tabs__pane" id="australia">
+          <table class="mui-table">
+            <tr>
+              <th>{% tr "Account holder" %}</th>
+              <td>{{ "BEATMATCHER" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "BSB code" %}</th>
+              <td>{{ "802985" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "Account number" %}</th>
+              <td>{{ "322416300" }}</td>
+            </tr>
+            <tr>
+              <th>{% tr "Reference number" %}</th>
+              <td>{{ booking.id }}</td>
+            </tr>
+          </table>
+        </div>
+        <p><a href="{% url "booking-bank-invoice-sent" code=booking.code %}" class="mui-btn mui-btn--primary mui-btn--raised">{% tr "I have made payment" %}</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views import View
 from django.urls import reverse
-from app.models import Booking, DJ
+from app.models import Booking, DJ, Language
 from app.util import random_128_bit_string
 from app import forms
 from app.emails import send_new_booking_email, send_quote_email, send_accepted_email, send_declined_email, send_venue_declined_email, send_paid_email
 from datetime import datetime, timezone, timedelta
 from time import mktime
 from django.conf import settings
+from decimal import Decimal
 import stripe
 
 
@@ -62,7 +63,7 @@ class NewBookingView(View):
 
         # Set the fields from the request
         booking = Booking()
-        booking.language = Languge.objects.get(code=request.session[f"language"])
+        booking.language = Language.objects.get(code=request.session[f"language"])
         booking.stage = Booking.REQUESTED
         booking.dj = dj
         booking.code = random_128_bit_string()
@@ -251,3 +252,26 @@ class BookingInvoiceView(View):
             booking.checkout_session_id = checkout_session.id
             booking.save()
         return redirect(checkout_session.url)
+
+
+class BookingBankInvoiceView(View):
+    def get(self, request, code, tr):
+        # Ensure Booking exists
+        booking = Booking.objects.filter(code=code).first()
+        if not booking or booking.stage not in [Booking.ACCEPTED, Booking.QUOTE]:
+            raise Http404
+        if booking.stage == Booking.QUOTE:
+            total = booking.quote
+        else:
+            total = booking.rate * booking.hours
+        service_fee = Decimal(int(total * 0.01 * 100)) / 100
+        return render(request, f"bank-invoice.html", {f"dj_total": total, f"service_fee": service_fee, f"total": total+service_fee, f"booking": booking})
+
+
+class BookingBankInvoiceSentView(View):
+    def get(self, request, code, tr):
+        # Ensure Booking exists
+        booking = Booking.objects.filter(code=code).first()
+        if not booking or booking.stage not in [Booking.ACCEPTED, Booking.QUOTE]:
+            raise Http404
+        return render(request, f"bank-invoice-sent.html")

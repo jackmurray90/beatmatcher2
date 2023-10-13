@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load translation %}
+
+{% block content %}
+  <div class="mui-container-fluid">
+    <div class="mui-row">
+      <div class="mui-col-md-6 mui-col-md-offset-3">
+        <h2>{% tr "Payment complete" %}</h2>
+        <p>{% tr "Thank you for your payment, it may take a few days to arrive. We will monitor our bank account and confirm your booking when we have received payment. You will receive an email after the booking is confirmed." %}</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
