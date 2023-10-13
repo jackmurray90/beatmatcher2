@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from app.models import User, DJ
 from app import forms
@@ -39,7 +40,7 @@ class EditDJForm(forms.Form):
 class EditDJView(View):
     def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"edit-dj"))
         try:
             dj = request.user.dj
             form = EditDJForm(
@@ -58,7 +59,7 @@ class EditDJView(View):
 
     def post(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"edit-dj"))
 
         try:
             dj = request.user.dj
@@ -92,7 +93,7 @@ class EditDJView(View):
 class EditDJSuccessView(View):
     def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"edit-dj-success"))
         return render(request, f"edit-dj-success.html")
 
 
@@ -123,7 +124,7 @@ class AdminEditDJForm(forms.Form):
 class AdminEditDJView(View):
     def get(self, request, dj_id, tr):
         if not request.user.is_staff:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"admin-edit-dj", dj_id=dj_id))
         if dj_id == f"new":
             dj = DJ()
             form = AdminEditDJForm(request)
@@ -146,7 +147,7 @@ class AdminEditDJView(View):
 
     def post(self, request, dj_id, tr):
         if not request.user.is_staff:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"admin-edit-dj", dj_id=dj_id))
         if dj_id == f"new":
             dj = DJ(picture=False)
         else:
@@ -183,7 +184,7 @@ class AdminEditDJView(View):
 class AdminEditDJSuccessView(View):
     def get(self, request, dj_id, tr):
         if not request.user.is_staff:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"admin-edit-dj-success", dj_id=dj_id))
         try:
             dj = DJ.objects.get(id=dj_id)
         except DJ.DoesNotExist:

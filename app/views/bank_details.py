@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from app.models import User, BankDetails
 from app import forms
@@ -31,7 +32,7 @@ class EditUSBankDetailsForm(forms.Form):
 class EditBankDetailsView(View):
     def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"edit-bank-details"))
         try:
             bank_details = request.user.bankdetails
         except User.bankdetails.RelatedObjectDoesNotExist:
@@ -67,7 +68,7 @@ class EditBankDetailsView(View):
 
     def post(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"edit-bank-details"))
 
         region = request.POST[f"region"]
         us_form = EditUSBankDetailsForm(request, initial_values={f"region": f"us"}, ignore_post=(region != f"us"))
@@ -103,5 +104,5 @@ class EditBankDetailsView(View):
 class EditBankDetailsSuccessView(View):
     def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"edit-bank-details-success"))
         return render(request, f"edit-bank-details-success.html")

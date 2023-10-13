@@ -97,7 +97,7 @@ class NewBookingView(View):
 class BookingsView(View):
     def get(self, request, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"bookings"))
         bookings = Booking.objects.filter(dj__user=request.user).order_by("set_time")
         return render(request, f"bookings.html", {f"bookings": bookings})
 
@@ -111,7 +111,7 @@ class QuoteForm(forms.Form):
 class BookingView(View):
     def get(self, request, booking_id, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"booking", booking_id=booking_id))
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user:
             return Http404
@@ -121,7 +121,7 @@ class BookingView(View):
 class QuoteBookingView(View):
     def get(self, request, booking_id, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"quote-booking", booking_id=booking_id))
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
@@ -130,7 +130,7 @@ class QuoteBookingView(View):
 
     def post(self, request, booking_id, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"quote-booking", booking_id=booking_id))
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
@@ -147,7 +147,7 @@ class QuoteBookingView(View):
 class AcceptBookingView(View):
     def post(self, request, booking_id, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"accept-booking", booking_id=booking_id))
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
@@ -160,7 +160,7 @@ class AcceptBookingView(View):
 class DeclineBookingView(View):
     def post(self, request, booking_id, tr):
         if not request.user.is_authenticated:
-            return redirect(f"log-in")
+            return redirect(f"log-in", path=reverse(f"decline-booking", booking_id=booking_id))
         booking = Booking.objects.filter(id=booking_id).first()
         if not booking or booking.dj.user != request.user or booking.stage != Booking.REQUESTED:
             return Http404
