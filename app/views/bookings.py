@@ -265,7 +265,7 @@ class BookingBankInvoiceView(View):
         else:
             total = booking.rate * booking.hours
         service_fee = Decimal(int(total * 0.01 * 100)) / 100
-        return render(request, f"bank-invoice.html", {f"dj_total": total, f"service_fee": service_fee, f"total": total+service_fee, f"booking": booking})
+        return render(request, f"bank-invoice.html", {f"dj_total": total, f"service_fee": service_fee, f"total": total + service_fee, f"booking": booking})
 
 
 class BookingBankInvoiceSentView(View):
