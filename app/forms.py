@@ -195,7 +195,7 @@ class Form:
     # Reserved field names
     # request, title, elements, is_valid, error
     def __init__(self, request, action=None, initial_values=None, ignore_post=False):
-        tr = lambda s: app_tr(s, request.session[f"language"])
+        tr = lambda s: app_tr(s, request.session.get(f"language", f"en"))
         self.form_id = random_128_bit_string()
         self.request = request
         self.title = tr(self.__class__.__title__) if hasattr(self.__class__, f"__title__") else None

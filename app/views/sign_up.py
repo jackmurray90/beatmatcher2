@@ -62,7 +62,7 @@ class SignUpView(View):
         )
 
         # Send the sign up email
-        send_sign_up_email(request, request.session[f"language"], sign_up.email, sign_up.code)
+        send_sign_up_email(request, request.session.get(f"language", f"en"), sign_up.email, sign_up.code)
 
         return redirect(f"sign-up-success")
 
@@ -119,7 +119,7 @@ class SignUpVerifyView(View):
             user.save()
 
         # Save the language in the settings model for the user
-        language = Language.objects.get(code=request.session[f"language"])
+        language = Language.objects.get(code=request.session.get(f"language", f"en"))
         settings = user.settings
         settings.language = language
         settings.save()
